@@ -9,11 +9,3 @@ export interface IFieldErrors{
   field:string,
   message:Array<string>
 }
-
-// export interface BaseSuccessResponse<T>{
-//     data:T
-// }
-
-// export interface BaseErrorResponse extends BaseResponse{
-//     errors:[]
-// }

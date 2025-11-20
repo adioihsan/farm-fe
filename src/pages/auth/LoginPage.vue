@@ -21,8 +21,17 @@
           <div class="grid w-full items-center gap-4">
             <div class="flex flex-col space-y-1.5">
               <Label for="email">Email</Label>
-              <Field name="email" :value="lastRegisteredEmail" v-slot="{ field, errorMessage, meta }">
-                <Input id="email" type="email" v-bind="field" :default-value="lastRegisteredEmail"/>
+              <Field
+                name="email"
+                :value="lastRegisteredEmail"
+                v-slot="{ field, errorMessage, meta }"
+              >
+                <Input
+                  id="email"
+                  type="email"
+                  v-bind="field"
+                  :default-value="lastRegisteredEmail"
+                />
                 <small
                   class="text-red-500"
                   v-if="(meta.touched || submitCount > 0) && errorMessage"
@@ -89,7 +98,9 @@ const onSubmit = async (values: any, { setFieldError }: any) => {
   const form = values as LoginForm;
   try {
     await auth.login(form);
-    router.push({ name: "Dashboard" });
+    const redirect = (route.query.redirect as string) || "/";
+    router.replace(redirect);
+    
   } catch (error) {
     const errMsg = handleApiErrors(error, setFieldError);
     toast.error(errMsg);
