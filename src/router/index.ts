@@ -10,19 +10,19 @@ const routes = [
         path: "/",
         name: 'Dashboard',
         component: DashboardPage,
-        meta: { protected: true },
+        meta: { protected: true,layout:"dashboard" },
     },
     {
         path: "/auth/login",
         name: "Login",
         component: LoginPage,
-        meta: { guest: true }
+        meta: { guest: true,layout:"auth" }
     },
     {
         path: "/auth/register",
         name: "Register",
         component: RegisterPage,
-        meta: { guest: true }
+        meta: { guest: true,layout:"auth" }
     }
 ]
 

@@ -7,7 +7,9 @@
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
-          <Button variant="link"> Sign Up </Button>
+          <Button variant="link" @click="router.push('/auth/register')">
+            Sign up
+          </Button>
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -54,7 +56,8 @@
             </div>
           </div>
           <Button class="w-full mt-4" :disabled="isSubmitting" type="submit">
-            Login
+            <icon-mdi-login-variant />
+            <span>Login</span>
           </Button>
         </Form>
       </CardContent>
@@ -100,7 +103,6 @@ const onSubmit = async (values: any, { setFieldError }: any) => {
     await auth.login(form);
     const redirect = (route.query.redirect as string) || "/";
     router.replace(redirect);
-    
   } catch (error) {
     const errMsg = handleApiErrors(error, setFieldError);
     toast.error(errMsg);

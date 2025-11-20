@@ -7,7 +7,7 @@
           Enter your information below to create a new account
         </CardDescription>
         <CardAction>
-          <Button variant="link" @click="router.push('/login')">
+          <Button variant="link" @click="router.push('/auth/login')">
             Sign in
           </Button>
         </CardAction>

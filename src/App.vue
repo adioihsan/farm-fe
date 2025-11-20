@@ -1,25 +1,27 @@
-
-
 <script setup lang="ts">
-  import { RouterView } from 'vue-router';
+import { computed } from 'vue'
+import { useRoute, RouterView } from 'vue-router'
+
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+import DashboardLayout from '@/layouts/dashboard/Layout.vue'
+
+const route = useRoute()
+
+const layouts: Record<string, any> = {
+  default: DefaultLayout,
+  auth: AuthLayout,
+  dashboard: DashboardLayout,
+}
+
+const currentLayout = computed(() => {
+  const name = (route.meta.layout as string) || 'default'
+  return layouts[name] ?? DefaultLayout
+})
 </script>
 
 <template>
-<RouterView/>
+  <component :is="currentLayout">
+    <RouterView />
+  </component>
 </template>
-
-
-<!-- <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style> -->
