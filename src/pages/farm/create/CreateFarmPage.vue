@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center h-svh">
     <Card class="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>Create New Farm</CardTitle>
+        <CardTitle>Add New Farm</CardTitle>
         <CardDescription>
           Enter farm information below to create a new farm
         </CardDescription>
@@ -106,7 +106,7 @@
           <Button class="w-full mt-4" :disabled="isSubmitting" type="submit"
             >
             <Spinner v-if="isSubmitting"/>
-            <span> Create Farm</span>
+            <span> Save Farm</span>
            </Button
           >
         </Form>

@@ -22,7 +22,7 @@ onMounted(()=>{
 import { computed, onMounted } from "vue";
 import { useDashboardStore } from "@/stores/dashboard.store";
 import { farmColumns } from "@/components/pages/farm/columns";
-import FarmTable from "@/components/pages/farm/farmTable.vue";
+import FarmTable from "@/components/pages/farm/FarmTable.vue";
 import { useFarmStore } from "@/stores/farm.store";
 import IndicatorsSection from "./part/IndicatorsSection.vue";
 import ChartSection from "./part/ChartSection.vue";
@@ -33,7 +33,7 @@ const useFarm = useFarmStore();
 
 onMounted(() => {
   useDashboard.fetchDashboard();
-  useFarm.init();
+  useFarm.fetchFarms()
 });
 
 const indicators = computed<IDashboardIndicators | null>(() => {

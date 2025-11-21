@@ -16,7 +16,6 @@ import type {
 interface IFarmState {
     farms: IFarm[];
     selectedFarm: IFarm | null;
-    initialized: boolean;
     isLoading: boolean;
 }
 
@@ -24,7 +23,6 @@ export const useFarmStore = defineStore("farm_store", {
     state: (): IFarmState => ({
         farms: [],
         selectedFarm: null,
-        initialized: false,
         isLoading: false,
     }),
 
@@ -35,11 +33,11 @@ export const useFarmStore = defineStore("farm_store", {
     },
 
     actions: {
-        async init() {
-            if (this.initialized) return;
-            await this.fetchFarms();
-            this.initialized = true;
-        },
+        // async init() {
+        //     if (this.initialized) return;
+        //     await this.fetchFarms();
+        //     this.initialized = true;
+        // },
 
         async fetchFarms() {
             try {

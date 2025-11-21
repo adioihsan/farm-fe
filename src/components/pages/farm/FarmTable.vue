@@ -1,82 +1,3 @@
-<script setup lang="ts" generic="TData, TValue">
-import type {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-} from "@tanstack/vue-table";
-import {
-  FlexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useVueTable,
-  getFilteredRowModel,
-} from "@tanstack/vue-table";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ref } from "vue";
-import { valueUpdater } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-
-import { ChevronDownIcon } from "lucide-vue-next";
-
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "vue-router";
-
-const props = defineProps<{
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}>();
-const router = useRouter();
-const sorting = ref<SortingState>([]);
-const columnFilters = ref<ColumnFiltersState>([]);
-const columnVisibility = ref<VisibilityState>({});
-
-const table = useVueTable({
-  get data() {
-    return props.data;
-  },
-  get columns() {
-    return props.columns;
-  },
-  getCoreRowModel: getCoreRowModel(),
-  getPaginationRowModel: getPaginationRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-
-  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: (updaterOrValue) =>
-    valueUpdater(updaterOrValue, columnFilters),
-  getFilteredRowModel: getFilteredRowModel(),
-  onColumnVisibilityChange: (updaterOrValue) =>
-    valueUpdater(updaterOrValue, columnVisibility),
-  state: {
-    get sorting() {
-      return sorting.value;
-    },
-    get columnFilters() {
-      return columnFilters.value;
-    },
-    get columnVisibility() {
-      return columnVisibility.value;
-    },
-  },
-});
-</script>
-
 <template>
   <div class="flex items-center justify-between py-4">
     <Input
@@ -111,8 +32,9 @@ const table = useVueTable({
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button @click="router.push('/farm/create')"
-        ><span>Add Farm</span></Button
+      <Button @click="router.push('/farm/create')">
+        <PlusCircleIcon />
+        <span>Add Farm</span></Button
       >
     </div>
   </div>
@@ -176,3 +98,83 @@ const table = useVueTable({
     </Button>
   </div>
 </template>
+
+<script setup lang="ts" generic="TData, TValue">
+import type {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+} from "@tanstack/vue-table";
+import {
+  FlexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useVueTable,
+  getFilteredRowModel,
+} from "@tanstack/vue-table";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { ref } from "vue";
+import { valueUpdater } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+
+import { ChevronDownIcon, PlusCircleIcon } from "lucide-vue-next";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "vue-router";
+
+const props = defineProps<{
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}>();
+const router = useRouter();
+const sorting = ref<SortingState>([]);
+const columnFilters = ref<ColumnFiltersState>([]);
+const columnVisibility = ref<VisibilityState>({});
+
+const table = useVueTable({
+  get data() {
+    return props.data;
+  },
+  get columns() {
+    return props.columns;
+  },
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, columnFilters),
+  getFilteredRowModel: getFilteredRowModel(),
+  onColumnVisibilityChange: (updaterOrValue) =>
+    valueUpdater(updaterOrValue, columnVisibility),
+
+  state: {
+    get sorting() {
+      return sorting.value;
+    },
+    get columnFilters() {
+      return columnFilters.value;
+    },
+    get columnVisibility() {
+      return columnVisibility.value;
+    },
+  },
+});
+</script>

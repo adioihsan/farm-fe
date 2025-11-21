@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center h-svh">
     <Card class="w-full max-w-lg">
       <CardHeader>
-        <CardTitle>Update Farm</CardTitle>
+        <CardTitle>Edit Farm</CardTitle>
         <CardDescription>
           Edit the farm information below and save changes
         </CardDescription>

@@ -1,15 +1,11 @@
 import type { IFarm } from '@/interfaces/farm.interface'
 import type { ColumnDef } from '@tanstack/vue-table'
-import DropdownAction from "@/components/pages/farm/farmTableDropdown.vue"
+import DropdownAction from "@/components/pages/farm/FarmTableDropdown.vue"
 import { h } from 'vue'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from 'lucide-vue-next'
 
 export const farmColumns: ColumnDef<IFarm>[] = [
-    {
-        accessorKey: 'id',
-        header: () => h('div', { class: 'font-semibold' }, 'ID'),
-    },
     {
         accessorKey: 'farmName',
         header: ({ column }) => {
@@ -34,12 +30,10 @@ export const farmColumns: ColumnDef<IFarm>[] = [
         header: () => h('div', { class: 'font-semibold text-center' }, 'Partner'),
         cell: ({ row }) => {
             const v = row.getValue('isPartner')
-            console.log("farm isp:", v)
-
             return h(
                 'div',
                 {
-                    class: `text-center font-medium ${v ? 'text-green-600' : 'text-red-600'}`,
+                    class: `text-center font-medium border rounded-xl ${v ? 'text-green-600' : 'text-red-600'}`,
                 },
                 v ? 'Yes' : 'No',
 

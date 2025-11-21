@@ -31,7 +31,6 @@ const logoutListeners = new Set<() => void>();
 
 export function setAccessTokenApi(token: string | null) {
     accessToken = token;
-    console.log("TOKEN in set:",accessToken)
     if (token) {
         instance.defaults.headers.common.Authorization = `Bearer ${token}`;
  
