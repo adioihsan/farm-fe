@@ -7,6 +7,7 @@ import Toast, { type PluginOptions, POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import { onSessionExpired } from './lib/fetcher'
 import { useAuthStore } from './stores/auth.store'
+import VueApexCharts from "vue3-apexcharts";
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -22,4 +23,5 @@ onSessionExpired(() => {
 app.use(router)
 app.use(pinia)
 app.use(Toast, toastOption)
+app.use(VueApexCharts);
 app.mount("#app")

@@ -13,7 +13,7 @@ export async function LoginApi(data:ILoginReqBody):Promise<ILoginResBody> {
 }
 
 export async function LogoutApi():Promise<IBaseResponse>{
-    const response = await fetcher<IBaseResponse>("/v1/auth/logout",{method:"GET"})
+    const response = await cleanFetcher<IBaseResponse>("/v1/auth/logout",{method:"GET"})
     return response
 }
 

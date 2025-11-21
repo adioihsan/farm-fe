@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-svh">
-    <Card class="w-full max-w-sm">
+    <Card class="w-full max-w-lg">
       <CardHeader>
         <CardTitle>Register New Account</CardTitle>
         <CardDescription>
@@ -19,7 +19,7 @@
           :validation-schema="schema"
           :validate-on-mount="false"
           @submit="onSubmit"
-          v-slot="{ isSubmitting, submitCount }"
+          v-slot="{ isSubmitting,submitCount }"
         >
           <div class="grid w-full items-center gap-4">
             <div class="flex flex-col space-y-1.5">
@@ -89,15 +89,12 @@
               </Field>
             </div>
           </div>
-          <Button class="w-full mt-4" :disabled="isSubmitting" type="submit">
-            Register
+          <Button class="w-full mt-6" :disabled="isSubmitting" type="submit">
+            <Spinner v-if="isSubmitting" />
+            <span>Register</span>
           </Button>
         </Form>
       </CardContent>
-
-      <CardFooter class="flex flex-col gap-2">
-        <Button variant="outline" class="w-full"> Login with Google </Button>
-      </CardFooter>
     </Card>
   </div>
 </template>
@@ -109,7 +106,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -121,28 +117,27 @@ import { Form, Field } from "vee-validate";
 import { toTypedSchema } from "@vee-validate/zod";
 import { registerFormSchema, type RegisterForm } from "@/schema/auth.schema";
 import { useToast } from "vue-toastification";
-import { handleApiErrors} from "@/lib/errorHandler";
+import { handleApiErrors } from "@/lib/errorHandler";;
+import { Spinner } from "@/components/ui/spinner";
 
 const router = useRouter();
-const auth = useAuthStore();
+const useAuth = useAuthStore();
 const toast = useToast();
-
 
 const schema = toTypedSchema(registerFormSchema);
 
 const onSubmit = async (values: any, { setFieldError }: any) => {
   const form = values as RegisterForm;
   try {
-    const registrationData = await auth.register(form);
+    const registrationData = await useAuth.register(form);
     router.push({
-      path:"/auth/login",
+      path: "/auth/login",
       query: { email: registrationData.email },
     });
     toast.success("Registration Succes, Now you can login");
-
   } catch (error: unknown) {
-    const errMsg = handleApiErrors(error,setFieldError)
-    toast.error(errMsg)
+    const errMsg = handleApiErrors(error, setFieldError);
+    toast.error(errMsg);
   }
 };
 </script>

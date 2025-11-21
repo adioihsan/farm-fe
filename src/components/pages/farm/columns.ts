@@ -1,19 +1,75 @@
 import type { IFarm } from '@/interfaces/farm.interface'
 import type { ColumnDef } from '@tanstack/vue-table'
+import DropdownAction from "@/components/pages/farm/farmTableDropdown.vue"
 import { h } from 'vue'
+import { Button } from '@/components/ui/button'
+import { ArrowUpDown } from 'lucide-vue-next'
 
-export const columns: ColumnDef<IFarm>[] = [
-  {
-    accessorKey: 'amount',
-    header: () => h('div', { class: 'text-right' }, 'Amount'),
-    cell: ({ row }) => {
-      const amount = Number.parseFloat(row.getValue('amount'))
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(amount)
-
-      return h('div', { class: 'text-right font-medium' }, formatted)
+export const farmColumns: ColumnDef<IFarm>[] = [
+    {
+        accessorKey: 'id',
+        header: () => h('div', { class: 'font-semibold' }, 'ID'),
     },
-  }
+    {
+        accessorKey: 'farmName',
+        header: ({ column }) => {
+            return h(Button, {
+                variant: 'ghost',
+                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+            }, () => ['Farm Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+        },
+        cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('farmName')),
+    },
+    {
+        accessorKey: 'ownerName',
+        header: () => h('div', { class: 'font-semibold' }, 'Owner'),
+        cell: ({ row }) => h('div', {}, row.getValue('ownerName')),
+    },
+    {
+        accessorKey: 'location',
+        header: () => h('div', { class: 'font-semibold' }, 'Location'),
+    },
+    {
+        accessorKey: 'isPartner',
+        header: () => h('div', { class: 'font-semibold text-center' }, 'Partner'),
+        cell: ({ row }) => {
+            const v = row.getValue('isPartner')
+            console.log("farm isp:", v)
+
+            return h(
+                'div',
+                {
+                    class: `text-center font-medium ${v ? 'text-green-600' : 'text-red-600'}`,
+                },
+                v ? 'Yes' : 'No',
+
+            )
+        },
+    },
+    {
+        accessorKey: 'createdAt',
+        header: () => h('div', { class: 'font-semibold' }, 'Created At'),
+        cell: ({ row }) => {
+            const date = new Date(row.getValue('createdAt'))
+            return h('div', {}, date.toLocaleDateString())
+        },
+    },
+    {
+        accessorKey: 'updatedAt',
+        header: () => h('div', { class: 'font-semibold' }, 'Updated At'),
+        cell: ({ row }) => {
+            const date = new Date(row.getValue('updatedAt'))
+            return h('div', {}, date.toLocaleDateString())
+        },
+    },
+    {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({ row }) => {
+            const farm = row.original
+            return h('div', { class: 'relative' }, h(DropdownAction, {
+                farm,
+            },))
+        },
+    },
 ]

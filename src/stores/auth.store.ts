@@ -8,7 +8,7 @@ interface IState {
     me: IMe | null
     initialized: boolean
     refreshPromise: Promise<string | null> | null
-    isLoading:boolean
+    isLoading: boolean
 }
 
 export const useAuthStore = defineStore('auth_store', {
@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('auth_store', {
         me: null,
         initialized: false,
         refreshPromise: null,
-        isLoading:false,
+        isLoading: false,
     }),
     getters: {
         isAuthenticated: (state) => !!state.me
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth_store', {
         async init() {
             if (this.initialized) return;
             try {
-                this.isLoading =true
+                this.isLoading = true
                 const meRes = await MeApi()
                 this.me = meRes.data
             } catch (error) {
@@ -35,29 +35,48 @@ export const useAuthStore = defineStore('auth_store', {
             }
             finally {
                 this.initialized = true
-                this.isLoading=false;
+                this.isLoading = false;
             }
         },
         async register(data: RegisterForm) {
-            const res = await RegisterApi(data as IRegisterReqBody)
-            return res.data
+            try {
+                this.isLoading = true
+                const res = await RegisterApi(data as IRegisterReqBody)
+                this.isLoading = false
+                return res.data
+            } finally {
+                this.isLoading = false
+            }
+
         },
         async login(data: LoginForm) {
-            this.isLoading =true
-            const res = await LoginApi(data as ILoginReqBody)
-            const token = res.data.accessToken
-            console.log(res)
-            console.log("TOKEN SEND TO API:", token)
-            setAccessTokenApi(token)
-            const meRes = await MeApi()
-            this.me = meRes.data
-            this.isLoading = false
-            return res.data
+            try {
+                this.isLoading = true
+                const res = await LoginApi(data as ILoginReqBody)
+                const token = res.data.accessToken
+
+                setAccessTokenApi(token)
+                const meRes = await MeApi()
+
+                this.me = meRes.data
+                return res.data
+            } finally {
+                this.isLoading = false
+            }
+
         },
+
         async logout() {
-            this.me = null
-            // await LogoutApi()
-            setAccessTokenApi(null)
+            this.isLoading = true
+            try {
+                this.me = null
+                await LogoutApi()
+                setAccessTokenApi(null)
+                return true
+            } finally {
+                this.isLoading = false
+            }
+
         }
     }
 })

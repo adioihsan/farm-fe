@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center h-svh">
-    <Card class="w-full max-w-sm">
+    <Card class="w-full max-w-lg">
       <CardHeader>
         <CardTitle>Login to your account</CardTitle>
         <CardDescription>
@@ -17,7 +17,7 @@
           as="form"
           :validation-schema="schema"
           :validate-on-mount="false"
-          v-slot="{ isSubmitting, submitCount }"
+          v-slot="{isSubmitting,submitCount }"
           @submit="onSubmit"
         >
           <div class="grid w-full items-center gap-4">
@@ -55,15 +55,12 @@
               </Field>
             </div>
           </div>
-          <Button class="w-full mt-4" :disabled="isSubmitting" type="submit">
-            <icon-mdi-login-variant />
+          <Button class="w-full mt-6" :disabled="isSubmitting" type="submit">
+            <Spinner v-if="isSubmitting" />  <LogInIcon v-else/>
             <span>Login</span>
           </Button>
         </Form>
       </CardContent>
-      <CardFooter class="flex flex-col gap-2">
-        <Button variant="outline" class="w-full"> Login with Google </Button>
-      </CardFooter>
     </Card>
   </div>
 </template>
@@ -75,7 +72,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -88,10 +84,12 @@ import { toTypedSchema } from "@vee-validate/zod";
 import { loginFormSchema, type LoginForm } from "@/schema/auth.schema";
 import { useToast } from "vue-toastification";
 import { handleApiErrors } from "@/lib/errorHandler";
+import { LogInIcon } from "lucide-vue-next";
+import { Spinner } from "@/components/ui/spinner";
 
 const router = useRouter();
 const route = useRoute();
-const auth = useAuthStore();
+const useAuth = useAuthStore();
 const toast = useToast();
 
 const lastRegisteredEmail = route.query.email as string | undefined;
@@ -100,7 +98,7 @@ const schema = toTypedSchema(loginFormSchema);
 const onSubmit = async (values: any, { setFieldError }: any) => {
   const form = values as LoginForm;
   try {
-    await auth.login(form);
+    await useAuth.login(form);
     const redirect = (route.query.redirect as string) || "/";
     router.replace(redirect);
   } catch (error) {

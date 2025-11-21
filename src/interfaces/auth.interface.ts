@@ -28,6 +28,7 @@ export interface IRegisterReqBody {
 export interface IMe{
     id:string,
     email:string,
+    name:string,
 }
 
 export interface IMeResBody extends IBaseResponse{
