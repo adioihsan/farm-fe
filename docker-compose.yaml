@@ -1,0 +1,7 @@
+services:
+  japfa-fe:
+    image: ghcr.io/adioihsn/japfa-fe:latest
+    container_name: farm-fe-app
+    restart: unless-stopped
+    ports:
+      - "7100:80"
