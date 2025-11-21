@@ -77,7 +77,9 @@ router.beforeEach(async (to) => {
             name: "Dashboard",
         }
     }
-    
+    // update document title
+    const RouteTitle= to.meta.title as string
+    document.title =` Japfa Farm | ${RouteTitle}`
     return true
 })
 
