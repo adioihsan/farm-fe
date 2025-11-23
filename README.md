@@ -24,30 +24,6 @@ The frontend provides:
 
 ---
 
-## Project Structure
-
-```
-japfa-fe/
-│── src/
-│   ├── components/
-│   ├── views/
-│   ├── router/
-│   ├── stores/
-│   ├── utils/
-│   ├── main.ts
-│── public/
-│── dist/                    # Production build output
-│── Dockerfile               # Production container
-│── .env.production          # Production env variables
-│── .env.development         # Development env variables
-│── package.json
-│── tsconfig.json
-│── vite.config.ts
-│── README.md
-```
-
----
-
 ## Environment Variables
 
 Vite requires environment variables to start with `VITE_`.
@@ -55,7 +31,7 @@ Vite requires environment variables to start with `VITE_`.
 ### `.env.development`
 
 ```
-VITE_API_URL=http://localhost:7000
+VITE_API_HOST=http://localhost:7000
 VITE_ENV=development
 ```
 
