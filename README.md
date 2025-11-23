@@ -16,10 +16,8 @@ The frontend provides:
 - TailwindCSS styling  
 - Vue Router  
 - Pinia state management  
-- API integration using Axios  
-- Component utilities and UI helpers  
+- API integration using Axios   
 - Docker image for production  
-- Development Docker environment  
 - CI/CD pipeline with GitHub Actions + GHCR  
 
 ---
@@ -38,7 +36,7 @@ VITE_ENV=development
 ### `.env.production`
 
 ```
-VITE_API_URL=https://api.ms27.my.id
+VITE_API_HOST=https://api.ms27.my.id
 VITE_ENV=production
 ```
 
@@ -79,24 +77,6 @@ Preview build output:
 ```
 npm run preview
 ```
-
----
-
-## Development Using Docker
-
-A development Docker environment is available.
-
-```
-docker compose -f docker-compose.dev.yml up --build
-```
-
-Stop:
-
-```
-docker compose -f docker-compose.dev.yml down
-```
-
-Files in the host machine are mounted into the container for fast live reload during development.
 
 ---
 
